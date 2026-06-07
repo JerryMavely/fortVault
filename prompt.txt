@@ -1,0 +1,10 @@
+I want to create a custom gear vault svg. lets create the outline ourselves from Scratch. these are the steps to create the svg
+
+1. Draw the outermost circle and in this circle at 12 equidistant point create a trapezoid which tapers slightly as it projects outwards from the circle. the right bottom and left bottom point are connected to the circle, but the base is empty. So it would be a circle with 12 equal equidistant gaps from each would be the trapezoid teeth with no base edge
+2. Draw another circle with slightly smaller radius than the outer circle, with 2 gaps of different lengths
+3. Draw another circle with slightly smaller radius than the previous circle, with 3 gaps of different lengths
+4. Draw another circle moderately smaller radius. and at eight equidistant points draw a small line extending outwards from the circle with length - 80% of the difference between this circle and previous circle. connect three of these extensions till upper line of the trapezoid
+5. draw a another circle inside with smaller radius but with thicker border, in this circle leave a gap at the directly southern point.  this is like a keyhole silhoutte
+
+I Created the customisable html svg generator using these steps and then we  edited it further. the above steps were the foundation steps that i started with
+I worked on this on a previous chat and created an html with sliders for settings of the each element. I have uploaded the html with the current progress.
