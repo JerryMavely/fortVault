@@ -1,0 +1,261 @@
+
+<style>
+:root{
+  --bg:#10141A;--card:#181C22;--cyan:#00F2EA;--muted:#849396;--on:#DFE2EB;
+  --mono:'JetBrains Mono',monospace;
+}
+body{background:var(--bg);margin:0;padding:0}
+.wrap{padding:16px;display:flex;flex-direction:column;gap:12px;align-items:center}
+svg{display:block;border-radius:12px}
+.controls{width:100%;max-width:380px;display:flex;flex-direction:column;gap:8px}
+.ctrl-row{display:flex;align-items:center;gap:8px}
+.ctrl-label{font-family:var(--mono);font-size:10px;color:var(--muted);letter-spacing:.06em;min-width:120px}
+input[type=range]{flex:1;accent-color:var(--cyan)}
+.val{font-family:var(--mono);font-size:10px;color:var(--cyan);min-width:28px;text-align:right}
+.section-title{font-family:var(--mono);font-size:9px;color:var(--cyan);letter-spacing:.1em;width:100%;max-width:380px;padding-top:4px;border-top:1px solid rgba(0,242,234,0.15)}
+.toggle-row{display:flex;gap:8px;flex-wrap:wrap;width:100%;max-width:380px}
+.tog{font-family:var(--mono);font-size:9px;padding:4px 10px;border-radius:20px;border:1px solid rgba(58,74,72,0.6);color:var(--muted);cursor:pointer;transition:all .15s;background:none}
+.tog.on{border-color:var(--cyan);color:var(--cyan);background:rgba(0,242,234,0.08)}
+.export-btn{width:100%;max-width:380px;padding:10px;background:rgba(0,242,234,0.12);border:1px solid var(--cyan);border-radius:8px;color:var(--cyan);font-family:var(--mono);font-size:11px;font-weight:500;cursor:pointer;transition:all .15s}
+.export-btn:hover{background:rgba(0,242,234,0.2)}
+</style>
+
+<div class="wrap">
+<svg id="gearSvg" width="300" height="300" viewBox="-110 -110 220 220" style="background:transparent;border:1px solid rgba(0,242,234,0.2);border-radius:12px;">
+  <g id="gearLayers"></g>
+</svg>
+
+<div class="controls">
+
+  <div class="section-title">① OUTER RING — 12 EQUIDISTANT GAPS</div>
+  <div class="ctrl-row"><span class="ctrl-label">RADIUS</span><input type="range" id="r1" min="60" max="100" value="85" step="1"><span class="val" id="r1v">85</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">GAP SIZE (deg)</span><input type="range" id="g1" min="2" max="20" value="8" step="0.5"><span class="val" id="g1v">8</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">STROKE WIDTH</span><input type="range" id="sw1" min="1" max="5" value="2.4" step="0.1"><span class="val" id="sw1v">2.4</span></div>
+
+  <div class="section-title">TEETH — 12 TRAPEZOIDS</div>
+  <div class="ctrl-row"><span class="ctrl-label">TOOTH HEIGHT</span><input type="range" id="th" min="5" max="20" value="12" step="1"><span class="val" id="thv">12</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">TOOTH BASE WIDTH</span><input type="range" id="tbw" min="8" max="20" value="15" step="0.5"><span class="val" id="tbwv">15</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">TOOTH TIP WIDTH</span><input type="range" id="ttw" min="6" max="18" value="11" step="0.5"><span class="val" id="ttwv">11</span></div>
+
+  <div class="section-title">② RING 2 — 2 GAPS</div>
+  <div class="ctrl-row"><span class="ctrl-label">RADIUS</span><input type="range" id="r2" min="40" max="90" value="72" step="1"><span class="val" id="r2v">72</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">GAP 1 (deg)</span><input type="range" id="g2a" min="5" max="60" value="20" step="1"><span class="val" id="g2av">20</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">GAP 2 (deg)</span><input type="range" id="g2b" min="5" max="60" value="35" step="1"><span class="val" id="g2bv">35</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">STROKE WIDTH</span><input type="range" id="sw2" min="1" max="5" value="2.2" step="0.1"><span class="val" id="sw2v">2.2</span></div>
+
+  <div class="section-title">③ RING 3 — 3 GAPS</div>
+  <div class="ctrl-row"><span class="ctrl-label">RADIUS</span><input type="range" id="r3" min="30" max="80" value="58" step="1"><span class="val" id="r3v">58</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">GAP 1 (deg)</span><input type="range" id="g3a" min="5" max="50" value="15" step="1"><span class="val" id="g3av">15</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">GAP 2 (deg)</span><input type="range" id="g3b" min="5" max="50" value="25" step="1"><span class="val" id="g3bv">25</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">GAP 3 (deg)</span><input type="range" id="g3c" min="5" max="50" value="10" step="1"><span class="val" id="g3cv">10</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">STROKE WIDTH</span><input type="range" id="sw3" min="1" max="5" value="2.2" step="0.1"><span class="val" id="sw3v">2.2</span></div>
+
+  <div class="section-title">④ SPOKE RING + SPOKES</div>
+  <div class="ctrl-row"><span class="ctrl-label">RADIUS</span><input type="range" id="r4" min="20" max="60" value="38" step="1"><span class="val" id="r4v">38</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">SPOKE LENGTH %</span><input type="range" id="spkl" min="40" max="100" value="80" step="1"><span class="val" id="spklv">80</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">STROKE WIDTH</span><input type="range" id="sw4" min="1" max="5" value="2.2" step="0.1"><span class="val" id="sw4v">2.2</span></div>
+
+  <div class="section-title">⑤ HUB CIRCLE</div>
+  <div class="ctrl-row"><span class="ctrl-label">RADIUS</span><input type="range" id="r5" min="8" max="30" value="18" step="1"><span class="val" id="r5v">18</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">STROKE WIDTH</span><input type="range" id="sw5" min="2" max="8" value="4" step="0.2"><span class="val" id="sw5v">4</span></div>
+  <div class="ctrl-row"><span class="ctrl-label">RECT WIDTH %</span><input type="range" id="rwp" min="20" max="80" value="50" step="5"><span class="val" id="rwpv">50</span></div>
+
+  <div class="section-title">COLOUR</div>
+  <div class="ctrl-row"><span class="ctrl-label">STROKE COLOR</span>
+    <input type="color" id="gearCol" value="#00F2EA" style="width:40px;height:24px;border:none;background:none;cursor:pointer">
+    <span class="val" id="gearColv" style="min-width:60px">#00F2EA</span>
+  </div>
+
+  <div class="section-title">LAYERS</div>
+  <div class="toggle-row">
+    <button class="tog on" id="tog1" onclick="toggleLayer(1)">① RING</button>
+    <button class="tog on" id="togT" onclick="toggleLayer('T')">TEETH</button>
+    <button class="tog on" id="tog2" onclick="toggleLayer(2)">② RING 2</button>
+    <button class="tog on" id="tog3" onclick="toggleLayer(3)">③ RING 3</button>
+    <button class="tog on" id="tog4" onclick="toggleLayer(4)">④ SPOKES</button>
+    <button class="tog on" id="tog5" onclick="toggleLayer(5)">⑤ HUB</button>
+  </div>
+
+  <button class="export-btn" onclick="exportGear()">EXPORT GEAR SVG</button>
+
+</div>
+</div>
+
+<script>
+const D2R = Math.PI/180;
+const layerVis = {1:true, T:true, 2:true, 3:true, 4:true, 5:true};
+
+function v(id){ return parseFloat(document.getElementById(id).value); }
+function bind(id,labelId){
+  const el=document.getElementById(id);
+  const lbl=document.getElementById(labelId);
+  el.addEventListener('input',()=>{lbl.textContent=el.value;draw();});
+}
+
+['r1','g1','sw1','th','tbw','ttw','r2','g2a','g2b','sw2','r3','g3a','g3b','g3c','sw3',
+ 'r4','spkl','sw4','r5','sw5','rwp'].forEach(id=>bind(id,id+'v'));
+
+document.getElementById('gearCol').addEventListener('input',e=>{
+  document.getElementById('gearColv').textContent=e.target.value;draw();
+});
+
+function toggleLayer(n){
+  layerVis[n]=!layerVis[n];
+  document.getElementById('tog'+n).classList.toggle('on',layerVis[n]);
+  draw();
+}
+
+function arcPath(cx,cy,r,startDeg,endDeg){
+  const s=startDeg*D2R, e=endDeg*D2R;
+  const x1=cx+r*Math.cos(s), y1=cy+r*Math.sin(s);
+  const x2=cx+r*Math.cos(e), y2=cy+r*Math.sin(e);
+  const large=(endDeg-startDeg)>180?1:0;
+  return `M${x1},${y1} A${r},${r},0,${large},1,${x2},${y2}`;
+}
+
+function draw(){
+  const col = document.getElementById('gearCol').value;
+  const R1=v('r1'), G1=v('g1'), SW1=v('sw1');
+  const TH=v('th'), TBW=v('tbw'), TTW=v('ttw');
+  const R2=v('r2'), G2A=v('g2a'), G2B=v('g2b'), SW2=v('sw2');
+  const R3=v('r3'), G3A=v('g3a'), G3B=v('g3b'), G3C=v('g3c'), SW3=v('sw3');
+  const R4=v('r4'), SPKL=v('spkl'), SW4=v('sw4');
+  const R5=v('r5'), SW5=v('sw5'), RWP=v('rwp');
+
+  const baseStroke = `stroke="${col}" fill="none" stroke-linecap="round" stroke-linejoin="round"`;
+
+  // ── RING 1: 12 equidistant gaps (like Ring 2/3 but with 12 gaps) ───
+  let ring1 = '';
+  if(layerVis[1]){
+    const N = 12;  // 12 gaps
+    const gapSpacing = 360/N;  // 30° apart
+    
+    // Create gap ranges
+    let gapRanges = [];
+    for(let i=0; i<N; i++){
+      const gapCenter = i*gapSpacing;
+      gapRanges.push({
+        s: gapCenter - G1/2,
+        e: gapCenter + G1/2
+      });
+    }
+    
+    // Sort and create arc segments between gaps
+    gapRanges.sort((a,b)=>a.s-b.s);
+    let arcs = [];
+    for(let i=0; i<N; i++){
+      const current = gapRanges[i];
+      const next = gapRanges[(i+1)%N];
+      if(i===N-1){
+        arcs.push({s: current.e, e: next.s + 360});
+      } else {
+        arcs.push({s: current.e, e: next.s});
+      }
+    }
+    
+    arcs.forEach(arc=>{
+      if(arc.e-arc.s>1) ring1+=`<path d="${arcPath(0,0,R1,arc.s,arc.e)}" ${baseStroke} stroke-width="${SW1}"/>`;
+    });
+  }
+
+  // ── TEETH: 12 trapezoids positioned in the gaps ───────────────────
+  let teeth = '';
+  if(layerVis['T']){
+    const N = 12;
+    for(let i=0; i<N; i++){
+      const angleDeg = (i/N)*360 - 90;
+      const angleRad = angleDeg*D2R;
+      const perpRad  = angleRad + Math.PI/2;
+      
+      const bx1 = R1*Math.cos(angleRad) - (TBW/2)*Math.cos(perpRad);
+      const by1 = R1*Math.sin(angleRad) - (TBW/2)*Math.sin(perpRad);
+      const bx2 = R1*Math.cos(angleRad) + (TBW/2)*Math.cos(perpRad);
+      const by2 = R1*Math.sin(angleRad) + (TBW/2)*Math.sin(perpRad);
+      
+      const tipR = R1+TH;
+      const tx1  = tipR*Math.cos(angleRad) - (TTW/2)*Math.cos(perpRad);
+      const ty1  = tipR*Math.sin(angleRad) - (TTW/2)*Math.sin(perpRad);
+      const tx2  = tipR*Math.cos(angleRad) + (TTW/2)*Math.cos(perpRad);
+      const ty2  = tipR*Math.sin(angleRad) + (TTW/2)*Math.sin(perpRad);
+      
+      teeth += `<path d="M${bx1.toFixed(2)},${by1.toFixed(2)} L${tx1.toFixed(2)},${ty1.toFixed(2)}" ${baseStroke} stroke-width="${SW1}"/>`;
+      teeth += `<path d="M${tx1.toFixed(2)},${ty1.toFixed(2)} L${tx2.toFixed(2)},${ty2.toFixed(2)}" ${baseStroke} stroke-width="${SW1}"/>`;
+      teeth += `<path d="M${tx2.toFixed(2)},${ty2.toFixed(2)} L${bx2.toFixed(2)},${by2.toFixed(2)}" ${baseStroke} stroke-width="${SW1}"/>`;
+    }
+  }
+
+  // ── RING 2: 2 gaps ────────────────────────────────────────────────
+  let ring2='';
+  if(layerVis[2]){
+    const gap1Start=90-G2A/2,  gap1End=90+G2A/2;
+    const gap2Start=270-G2B/2, gap2End=270+G2B/2;
+    ring2 += `<path d="${arcPath(0,0,R2,gap1End,gap2Start)}" ${baseStroke} stroke-width="${SW2}"/>`;
+    ring2 += `<path d="${arcPath(0,0,R2,gap2End,gap1Start+360)}" ${baseStroke} stroke-width="${SW2}"/>`;
+  }
+
+  // ── RING 3: 3 gaps ────────────────────────────────────────────────
+  let ring3='';
+  if(layerVis[3]){
+    const spread=120;
+    const offsets=[0,spread,spread*2];
+    const gaps=[G3A,G3B,G3C];
+    let segs=[];
+    let gapRanges=offsets.map((o,i)=>({s:o-gaps[i]/2, e:o+gaps[i]/2}));
+    gapRanges.sort((a,b)=>a.s-b.s);
+    let prev=gapRanges[gapRanges.length-1].e-360;
+    gapRanges.forEach(g=>{
+      if(g.s>prev) segs.push({s:prev,e:g.s});
+      prev=g.e;
+    });
+    if(prev<360) segs.push({s:prev,e:gapRanges[0].s+360});
+    segs.forEach(seg=>{
+      if(seg.e-seg.s>1) ring3+=`<path d="${arcPath(0,0,R3,seg.s,seg.e)}" ${baseStroke} stroke-width="${SW3}"/>`;
+    });
+  }
+
+  // ── SPOKES ────────────────────────────────────────────────────────
+  let spokes='';
+  if(layerVis[4]){
+    spokes+=`<circle cx="0" cy="0" r="${R4}" ${baseStroke} stroke-width="${SW4}"/>`;
+    const diff = R2 - R4;
+    const spokeLen = diff * (SPKL/100);
+    const N2=8;
+    for(let i=0;i<N2;i++){
+      const angleDeg=(i/N2)*360-90;
+      const rad=angleDeg*D2R;
+      const ix=R4*Math.cos(rad), iy=R4*Math.sin(rad);
+      const extended = (i===0||i===3||i===6);
+      const outerR = extended ? R1+v('th') : R4+spokeLen;
+      const ox=outerR*Math.cos(rad), oy=outerR*Math.sin(rad);
+      spokes+=`<line x1="${ix.toFixed(2)}" y1="${iy.toFixed(2)}" x2="${ox.toFixed(2)}" y2="${oy.toFixed(2)}" ${baseStroke} stroke-width="${SW4}"/>`;
+    }
+  }
+
+  // ── HUB ────────────────────────────────────────────────────────────
+  let hub='';
+  if(layerVis[5]){
+    hub += `<circle cx="0" cy="0" r="${R5}" ${baseStroke} stroke-width="${SW5}"/>`;
+    const rectWidth = (R5*2) * (RWP/100);
+    const rectHeight = SW5;
+    const rectX = -rectWidth/2;
+    const rectY = R5 - rectHeight;
+    hub += `<rect x="${rectX.toFixed(2)}" y="${rectY.toFixed(2)}" width="${rectWidth.toFixed(2)}" height="${rectHeight.toFixed(2)}" fill="none" stroke="none"/>`;
+  }
+
+  document.getElementById('gearLayers').innerHTML=ring1+teeth+ring2+ring3+spokes+hub;
+}
+
+function exportGear(){
+  const svg = document.getElementById('gearSvg');
+  const svgString = new XMLSerializer().serializeToString(svg);
+  const blob = new Blob([svgString], {type:'image/svg+xml'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'gear_icon.svg';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+draw();
+</script>
